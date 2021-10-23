@@ -14,7 +14,7 @@ public class Application {
   private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
 
   public static void main(String[] args) {
-    var inputFile = "C:\\dev\\java\\invoices.csv";
+    var inputFile = "./input/invoices.csv";
     var fileType = "xml";
 
     String outputDirectory = "./output/" + LocalDateTime.now().format(FORMATTER) + "/";

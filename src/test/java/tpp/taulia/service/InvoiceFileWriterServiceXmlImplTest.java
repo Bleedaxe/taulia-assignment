@@ -95,8 +95,8 @@ class InvoiceFileWriterServiceXmlImplTest {
   }
 
   private void assertFileNames(File test1File, File test2File) {
-    assertThat(test1File.getName()).isEqualTo("test1.xml");
-    assertThat(test2File.getName()).isEqualTo("test2.xml");
+    assertThat(test1File).hasName("test1.xml");
+    assertThat(test2File).hasName("test2.xml");
   }
 
   private List<String> getAllLineForFile(File test1File) throws IOException {

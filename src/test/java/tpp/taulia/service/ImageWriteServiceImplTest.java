@@ -28,7 +28,7 @@ class ImageWriteServiceImplTest {
     assertThat(createdFiles).isNotNull().hasSize(1);
 
     var file = createdFiles[0];
-    assertThat(file.getName()).isEqualTo(imageName);
+    assertThat(file).hasName(imageName);
   }
 
   @Test

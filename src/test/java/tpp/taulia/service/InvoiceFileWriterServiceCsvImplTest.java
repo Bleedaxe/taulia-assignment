@@ -54,7 +54,7 @@ class InvoiceFileWriterServiceCsvImplTest {
   }
 
   private void assertFileNames(File test1File, File test2File) {
-    assertThat(test1File.getName()).isEqualTo("test1.csv");
-    assertThat(test2File.getName()).isEqualTo("test2.csv");
+    assertThat(test1File).hasName("test1.csv");
+    assertThat(test2File).hasName("test2.csv");
   }
 }

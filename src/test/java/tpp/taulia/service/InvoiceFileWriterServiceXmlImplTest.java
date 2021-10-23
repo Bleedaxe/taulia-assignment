@@ -2,7 +2,7 @@ package tpp.taulia.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import tpp.taulia.util.TestUtil;
+import tpp.taulia.helper.TestHelper;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -20,9 +20,9 @@ class InvoiceFileWriterServiceXmlImplTest {
   void writeInvoice_withTwoDifferentBuyers_shouldCreateTwoFilesWithCorrespondingData(
       @TempDir Path tempDir) throws IOException, XMLStreamException {
 
-    var test1 = TestUtil.getInvoice("test1");
-    var test1Second = TestUtil.getInvoice("test1", "second");
-    var test2 = TestUtil.getInvoice("test2");
+    var test1 = TestHelper.getInvoice("test1");
+    var test1Second = TestHelper.getInvoice("test1", "second");
+    var test2 = TestHelper.getInvoice("test2");
 
     try (var invoiceFileWriterService = new InvoiceFileWriterServiceXmlImpl(tempDir.toString())) {
       invoiceFileWriterService.writeInvoice(test1);

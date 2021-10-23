@@ -2,7 +2,7 @@ package tpp.taulia.model;
 
 import org.junit.jupiter.api.Test;
 import tpp.taulia.util.CsvUtil;
-import tpp.taulia.util.TestUtil;
+import tpp.taulia.helper.TestHelper;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,7 +14,7 @@ class InvoiceTest {
 
   @Test
   public void serializeToCsv_withJackson_shouldProduceProperFile() throws IOException {
-    var invoice = TestUtil.getInvoice("buyer-1");
+    var invoice = TestHelper.getInvoice("buyer-1");
 
     var writer = CsvUtil.getCsvWriterFor(Invoice.class);
 
@@ -22,18 +22,18 @@ class InvoiceTest {
       writer.writeValue(stringWriter, invoice);
       assertThat(stringWriter.toString())
           .contains(
-              TestUtil.INVOICE_CSV_HEADER,
+              TestHelper.INVOICE_CSV_HEADER,
               "buyer-1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
     }
   }
 
   @Test
   public void parsingCsv_withJackson_shouldDeserializeToExpectedObject() throws IOException {
-    var expected = TestUtil.getInvoice("buyer-1");
+    var expected = TestHelper.getInvoice("buyer-1");
 
     try (var stringReader =
         new StringReader(
-            TestUtil.INVOICE_CSV_HEADER
+            TestHelper.INVOICE_CSV_HEADER
                 + "\n"
                 + "buyer-1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia")) {
       var reader = CsvUtil.getCsvReaderFor(Invoice.class);

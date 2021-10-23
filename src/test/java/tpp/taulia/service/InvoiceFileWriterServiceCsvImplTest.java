@@ -2,7 +2,7 @@ package tpp.taulia.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import tpp.taulia.util.TestUtil;
+import tpp.taulia.helper.TestHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,9 +17,9 @@ class InvoiceFileWriterServiceCsvImplTest {
   void writeInvoice_withTwoDifferentBuyers_shouldCreateTwoFilesWithCorrespondingData(
       @TempDir Path tempDir) throws IOException {
 
-    var test1 = TestUtil.getInvoice("test1");
-    var test1Second = TestUtil.getInvoice("test1", "second");
-    var test2 = TestUtil.getInvoice("test2");
+    var test1 = TestHelper.getInvoice("test1");
+    var test1Second = TestHelper.getInvoice("test1", "second");
+    var test2 = TestHelper.getInvoice("test2");
 
     try (var invoiceFileWriterServiceCsv =
         new InvoiceFileWriterServiceCsvImpl(tempDir.toString())) {
@@ -42,14 +42,14 @@ class InvoiceFileWriterServiceCsvImplTest {
     var test1Lines = Files.readAllLines(test1File.toPath());
     assertThat(test1Lines)
         .contains(
-            TestUtil.INVOICE_CSV_HEADER,
+            TestHelper.INVOICE_CSV_HEADER,
             "test1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia",
             "test1,second,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
 
     var test2Lines = Files.readAllLines(test2File.toPath());
     assertThat(test2Lines)
         .contains(
-            TestUtil.INVOICE_CSV_HEADER,
+            TestHelper.INVOICE_CSV_HEADER,
             "test2,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
   }
 

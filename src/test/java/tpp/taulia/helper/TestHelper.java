@@ -1,11 +1,14 @@
-package tpp.taulia.util;
+package tpp.taulia.helper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import tpp.taulia.model.Invoice;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class TestUtil {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class TestHelper {
 
     public static final String INVOICE_CSV_HEADER = "buyer,image_name,invoice_image,invoice_due_date,invoice_number,invoice_amount,invoice_currency,invoice_status,supplier";
 

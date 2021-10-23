@@ -11,10 +11,15 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 
 @Slf4j
-public class InvoiceFileProcessor {
+public class InvoiceFileServiceImpl implements InvoiceFileService {
 
-  private final ObjectReader objectReader = CsvUtil.getCsvReaderFor(Invoice.class);
+  private final ObjectReader objectReader;
 
+  public InvoiceFileServiceImpl() {
+    objectReader = CsvUtil.getCsvReaderFor(Invoice.class);
+  }
+
+  @Override
   public void processFile(String path, String outputFileType, String outputDirectory) {
     try (var inputStream = new FileInputStream(path);
         var bufferedInputStream = new BufferedInputStream(inputStream);

@@ -1,7 +1,8 @@
 package tpp.taulia;
 
 import lombok.extern.slf4j.Slf4j;
-import tpp.taulia.service.InvoiceFileProcessor;
+import tpp.taulia.service.InvoiceFileService;
+import tpp.taulia.service.InvoiceFileServiceImpl;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -27,8 +28,8 @@ public class Application {
 
     var startTime = System.currentTimeMillis();
 
-    InvoiceFileProcessor invoiceFileProcessor = new InvoiceFileProcessor();
-    invoiceFileProcessor.processFile(inputFile, fileType, outputDirectory);
+    InvoiceFileService invoiceFileService = new InvoiceFileServiceImpl();
+    invoiceFileService.processFile(inputFile, fileType, outputDirectory);
 
     var endTime = System.currentTimeMillis();
 

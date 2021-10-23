@@ -1,4 +1,4 @@
-package tpp.taulia.model.deserializer;
+package tpp.taulia.model.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

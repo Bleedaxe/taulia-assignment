@@ -34,6 +34,7 @@ class InvoiceTest {
     try (var stringReader =
         new StringReader(
             TestUtil.INVOICE_CSV_HEADER
+                + "\n"
                 + "buyer-1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia")) {
       var reader = CsvUtil.getCsvReaderFor(Invoice.class);
       var objectMappingIterator = reader.<Invoice>readValues(stringReader);

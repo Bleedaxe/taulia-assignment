@@ -10,7 +10,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import tpp.taulia.model.deserializer.LocalDateSerializer;
+import tpp.taulia.model.serialization.LocalDateDeserializer;
+import tpp.taulia.model.serialization.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -34,6 +35,7 @@ public class CsvUtil {
   private static CsvMapper getCsvMapper() {
     var javaTimeModule = new JavaTimeModule();
     javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer());
+    javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
 
     var csvMapper =
         CsvMapper.builder()

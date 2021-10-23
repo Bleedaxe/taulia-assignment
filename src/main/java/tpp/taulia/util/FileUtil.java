@@ -1,8 +1,12 @@
 package tpp.taulia.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.io.*;
 
-public class FileUtils {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class FileUtil {
 
   public static OutputStream createFileOutputStream(
       String parent, String fileName, String extension) throws IOException {

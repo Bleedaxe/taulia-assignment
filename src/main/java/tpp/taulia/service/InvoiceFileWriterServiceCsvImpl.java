@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.extern.slf4j.Slf4j;
 import tpp.taulia.model.Invoice;
 import tpp.taulia.util.CsvUtil;
-import tpp.taulia.util.FileUtils;
+import tpp.taulia.util.FileUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,7 +34,7 @@ public class InvoiceFileWriterServiceCsvImpl implements InvoiceFileWriterService
 
     if (stream == null) {
       stream =
-          FileUtils.createFileOutputStream(outputDirectory, invoice.getBuyer(), CSV_FILE_EXTENSION);
+          FileUtil.createFileOutputStream(outputDirectory, invoice.getBuyer(), CSV_FILE_EXTENSION);
       outputStreamByName.put(invoice.getBuyer(), stream);
     }
 

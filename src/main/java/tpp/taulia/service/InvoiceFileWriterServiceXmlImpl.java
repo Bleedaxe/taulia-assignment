@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import tpp.taulia.model.Invoice;
 import tpp.taulia.model.XmlOutputStream;
 import tpp.taulia.util.DateUtil;
-import tpp.taulia.util.FileUtils;
+import tpp.taulia.util.FileUtil;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -81,7 +81,7 @@ public class InvoiceFileWriterServiceXmlImpl implements InvoiceFileWriterService
   private XmlOutputStream createXmlWriter(Invoice invoice) throws XMLStreamException, IOException {
 
     var outputStream =
-        FileUtils.createFileOutputStream(outputDirectory, invoice.getBuyer(), XML_FILE_EXTENSION);
+        FileUtil.createFileOutputStream(outputDirectory, invoice.getBuyer(), XML_FILE_EXTENSION);
     var writer = XML_OUTPUT_FACTORY.createXMLStreamWriter(outputStream, UTF_8.name());
 
     writer.writeStartDocument(UTF_8.name(), "1.0");

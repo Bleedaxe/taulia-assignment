@@ -65,7 +65,6 @@ public class InvoiceFileWriterServiceXmlImpl implements InvoiceFileWriterService
 
     writeElementToStream("Buyer", invoice.getBuyer(), writer);
     writeElementToStream("ImageName", invoice.getImageName(), writer);
-    writeElementToStream("InvoiceImage", invoice.getInvoiceImage(), writer);
     writeElementToStream(
         "InvoiceDueDate", DateUtil.dateToString(invoice.getInvoiceDueDate()), writer);
     writeElementToStream("InvoiceNumber", invoice.getInvoiceNumber(), writer);

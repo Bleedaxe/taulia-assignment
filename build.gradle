@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "6.2.0"
+    id "application"
+}
+
+group 'tpp.taulia'
+version '1.0-SNAPSHOT'
+application.mainClassName = 'tpp.taulia.Application'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('jacksonDatabindVersion', '2.13.0')
+    set('junitJupiterVersion', '5.7.0')
+    set('slf4jVersion', '1.7.32')
+    set('log4jVerson', '2.14.1')
+}
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatabindVersion}"
+
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVerson}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+}
+
+test {
+    useJUnitPlatform()
+}

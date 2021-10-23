@@ -2,6 +2,7 @@ package tpp.taulia.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
 import tpp.taulia.helper.TestHelper;
 
 import javax.xml.stream.XMLStreamException;
@@ -24,7 +25,9 @@ class InvoiceFileWriterServiceXmlImplTest {
     var test1Second = TestHelper.getInvoice("test1", "second");
     var test2 = TestHelper.getInvoice("test2");
 
-    try (var invoiceFileWriterService = new InvoiceFileWriterServiceXmlImpl(tempDir.toString())) {
+    var imageWriteService = Mockito.mock(ImageWriteService.class);
+    try (var invoiceFileWriterService =
+        new InvoiceFileWriterServiceXmlImpl(tempDir.toString(), imageWriteService)) {
       invoiceFileWriterService.writeInvoice(test1);
       invoiceFileWriterService.writeInvoice(test2);
       invoiceFileWriterService.writeInvoice(test1Second);
@@ -38,7 +41,10 @@ class InvoiceFileWriterServiceXmlImplTest {
 
     assertFileNames(test1File, test2File);
     assertFileContent(test1File, test2File);
+    verifyImageCreation(test1File, test2File);
   }
+
+  private void verifyImageCreation(File test1File, File test2File) {}
 
   private void assertFileContent(File test1File, File test2File) throws IOException {
     var test1Lines = getAllLineForFile(test1File);
@@ -49,7 +55,7 @@ class InvoiceFileWriterServiceXmlImplTest {
             "<Invoice>",
             "<Buyer>test1</Buyer>",
             "<ImageName>image-name</ImageName>",
-            "<InvoiceDueDate>22-10-2021</InvoiceDueDate>",
+            "<InvoiceDueDate>2021-10-22</InvoiceDueDate>",
             "<InvoiceNumber>invoice-number</InvoiceNumber>",
             "<InvoiceAmount>42</InvoiceAmount>",
             "<InvoiceCurrency>BGN</InvoiceCurrency>",
@@ -59,7 +65,7 @@ class InvoiceFileWriterServiceXmlImplTest {
             "<Invoice>",
             "<Buyer>test1</Buyer>",
             "<ImageName>second</ImageName>",
-            "<InvoiceDueDate>22-10-2021</InvoiceDueDate>",
+            "<InvoiceDueDate>2021-10-22</InvoiceDueDate>",
             "<InvoiceNumber>invoice-number</InvoiceNumber>",
             "<InvoiceAmount>42</InvoiceAmount>",
             "<InvoiceCurrency>BGN</InvoiceCurrency>",
@@ -74,7 +80,7 @@ class InvoiceFileWriterServiceXmlImplTest {
             "<Invoice>",
             "<Buyer>test2</Buyer>",
             "<ImageName>image-name</ImageName>",
-            "<InvoiceDueDate>22-10-2021</InvoiceDueDate>",
+            "<InvoiceDueDate>2021-10-22</InvoiceDueDate>",
             "<InvoiceNumber>invoice-number</InvoiceNumber>",
             "<InvoiceAmount>42</InvoiceAmount>",
             "<InvoiceCurrency>BGN</InvoiceCurrency>",

@@ -43,14 +43,14 @@ class InvoiceFileWriterServiceCsvImplTest {
     assertThat(test1Lines)
         .contains(
             TestHelper.INVOICE_CSV_HEADER,
-            "test1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia",
-            "test1,second,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
+            "test1,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia",
+            "test1,second,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia");
 
     var test2Lines = Files.readAllLines(test2File.toPath());
     assertThat(test2Lines)
         .contains(
             TestHelper.INVOICE_CSV_HEADER,
-            "test2,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
+            "test2,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia");
   }
 
   private void assertFileNames(File test1File, File test2File) {

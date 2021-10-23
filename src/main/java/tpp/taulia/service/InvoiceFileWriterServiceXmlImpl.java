@@ -24,10 +24,16 @@ public class InvoiceFileWriterServiceXmlImpl implements InvoiceFileWriterService
   private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
 
   private final String outputDirectory;
+
+  private final ImageWriteService imageWriteService;
+
   private final Map<String, XmlOutputStream> xmlStreamWriterByName;
 
-  public InvoiceFileWriterServiceXmlImpl(String outputDirectory) {
+  public InvoiceFileWriterServiceXmlImpl(
+      String outputDirectory, ImageWriteService imageWriteService) {
     this.outputDirectory = outputDirectory;
+    this.imageWriteService = imageWriteService;
+
     this.xmlStreamWriterByName = new HashMap<>();
   }
 
@@ -41,6 +47,7 @@ public class InvoiceFileWriterServiceXmlImpl implements InvoiceFileWriterService
     }
 
     writeInvoiceToXmlStream(invoice, currentStream.getXmlStreamWriter());
+    imageWriteService.writeImageToFileSystem(invoice.getImageName(), invoice.getInvoiceImage());
   }
 
   @Override
@@ -65,6 +72,7 @@ public class InvoiceFileWriterServiceXmlImpl implements InvoiceFileWriterService
 
     writeElementToStream("Buyer", invoice.getBuyer(), writer);
     writeElementToStream("ImageName", invoice.getImageName(), writer);
+
     writeElementToStream(
         "InvoiceDueDate", DateUtil.dateToString(invoice.getInvoiceDueDate()), writer);
     writeElementToStream("InvoiceNumber", invoice.getInvoiceNumber(), writer);

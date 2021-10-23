@@ -11,7 +11,17 @@ public class FileUtil {
   public static OutputStream createFileOutputStream(
       String parent, String fileName, String extension) throws IOException {
 
-    var file = new File(parent, fileName + extension);
+    return createFileOutputStream(parent, fileName + extension);
+  }
+
+  public static OutputStream createFileOutputStream(String parent, String fileName)
+      throws IOException {
+
+    var file = new File(parent, fileName);
+    return createFileOutputStream(file);
+  }
+
+  public static OutputStream createFileOutputStream(File file) throws IOException {
     return new BufferedOutputStream(new FileOutputStream(file));
   }
 }

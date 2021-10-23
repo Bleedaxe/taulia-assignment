@@ -23,7 +23,7 @@ class InvoiceTest {
       assertThat(stringWriter.toString())
           .contains(
               TestHelper.INVOICE_CSV_HEADER,
-              "buyer-1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia");
+              "buyer-1,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia");
     }
   }
 
@@ -35,7 +35,7 @@ class InvoiceTest {
         new StringReader(
             TestHelper.INVOICE_CSV_HEADER
                 + "\n"
-                + "buyer-1,image-name,invoice-image,22-10-2021,invoice-number,42,BGN,status,taulia")) {
+                + "buyer-1,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia")) {
       var reader = CsvUtil.getCsvReaderFor(Invoice.class);
       var objectMappingIterator = reader.<Invoice>readValues(stringReader);
       var invoices = objectMappingIterator.readAll();

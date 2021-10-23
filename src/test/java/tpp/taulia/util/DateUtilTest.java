@@ -12,12 +12,12 @@ class DateUtilTest {
   void dateToString_withValidDate_shouldReturnDateInExpectedFormat() {
     var date = LocalDate.of(2021, 10, 22);
     var formattedDate = DateUtil.dateToString(date);
-    assertThat(formattedDate).isEqualTo("22-10-2021");
+    assertThat(formattedDate).isEqualTo("2021-10-22");
   }
 
   @Test
   void stringToDate_withValidDateString_shouldCreateValidLocalDate() {
-    String dateString = "22-10-2021";
+    String dateString = "2021-10-22";
     var fromString = DateUtil.stringToDate(dateString);
     assertThat(fromString).isEqualTo(LocalDate.of(2021, 10, 22));
   }

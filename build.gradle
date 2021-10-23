@@ -17,6 +17,8 @@ ext {
     set('junitJupiterVersion', '5.7.0')
     set('slf4jVersion', '1.7.32')
     set('log4jVerson', '2.14.1')
+    set('assertjVersion', '3.21.0')
+    set('mockitoVersion', '4.0.0')
 }
 
 dependencies {
@@ -30,7 +32,11 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
 
-    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+//    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+
 }
 
 test {

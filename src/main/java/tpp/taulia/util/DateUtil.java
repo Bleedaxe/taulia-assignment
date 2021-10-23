@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtil {
 
-  private static final String DATE_FORMAT_PATTERN = "dd-MM-yyyy";
+  private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
   private static final DateTimeFormatter DATE_FORMATTER =
       DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
 

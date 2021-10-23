@@ -14,7 +14,8 @@ public class InvoiceFileWriterServiceFactory {
       case "csv":
         return new InvoiceFileWriterServiceCsvImpl(outputDirectory);
       case "xml":
-        return new InvoiceFileWriterServiceXmlImpl(outputDirectory);
+        ImageWriteService imageWriteService = new ImageWriteServiceImpl(outputDirectory);
+        return new InvoiceFileWriterServiceXmlImpl(outputDirectory, imageWriteService);
       default:
         throw new InvalidInvoiceFileWriterServiceTypeException(type);
     }

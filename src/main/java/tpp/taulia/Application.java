@@ -1,38 +1,14 @@
 package tpp.taulia;
 
 import lombok.extern.slf4j.Slf4j;
-import tpp.taulia.service.InvoiceFileService;
-import tpp.taulia.service.InvoiceFileServiceImpl;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
+@SpringBootApplication
 public class Application {
 
-  private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
-
   public static void main(String[] args) {
-    var inputFile = "./input/invoices.csv";
-    var fileType = "xml";
-
-    String outputDirectory = "./output/" + LocalDateTime.now().format(FORMATTER) + "/";
-    new File(outputDirectory).mkdirs();
-
-    log.info(
-        "Started processing [{}] with output directory [{}] and file type [{}]",
-        inputFile,
-        outputDirectory,
-        fileType);
-
-    var startTime = System.currentTimeMillis();
-
-    InvoiceFileService invoiceFileService = new InvoiceFileServiceImpl();
-    invoiceFileService.processFile(inputFile, fileType, outputDirectory);
-
-    var endTime = System.currentTimeMillis();
-
-    log.info("The process was executed for [{}] millis", endTime - startTime);
+    SpringApplication.run(Application.class, args);
   }
 }

@@ -1,23 +1,36 @@
 package tpp.taulia.service;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import tpp.taulia.exception.InvalidInvoiceFileWriterServiceTypeException;
+import tpp.taulia.model.InvoiceOutputType;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+@Component
 public class InvoiceFileWriterServiceFactory {
 
-  public static InvoiceFileWriterService createByType(
-      @NonNull String type, @NonNull String outputDirectory) {
-    switch (type.toLowerCase()) {
-      case "csv":
-        return new InvoiceFileWriterServiceCsvImpl(outputDirectory);
-      case "xml":
-        ImageWriteService imageWriteService = new ImageWriteServiceImpl(outputDirectory);
-        return new InvoiceFileWriterServiceXmlImpl(outputDirectory, imageWriteService);
-      default:
-        throw new InvalidInvoiceFileWriterServiceTypeException(type);
+  private final Map<InvoiceOutputType, InvoiceFileWriterService> invoiceFileWriterServiceMap;
+
+  @Autowired
+  public InvoiceFileWriterServiceFactory(List<InvoiceFileWriterService> invoiceFileWriterServices) {
+    this.invoiceFileWriterServiceMap =
+        invoiceFileWriterServices.stream()
+            .collect(
+                Collectors.toMap(InvoiceFileWriterService::getSupportedType, Function.identity()));
+  }
+
+  public InvoiceFileWriterService createByType(@NonNull InvoiceOutputType type) {
+    var fileWriterService = invoiceFileWriterServiceMap.get(type);
+
+    if (fileWriterService == null) {
+      throw new InvalidInvoiceFileWriterServiceTypeException(type);
     }
+
+    return fileWriterService;
   }
 }

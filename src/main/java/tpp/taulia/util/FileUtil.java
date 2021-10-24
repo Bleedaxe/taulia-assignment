@@ -11,7 +11,7 @@ public class FileUtil {
   public static OutputStream createFileOutputStream(
       String parent, String fileName, String extension) throws IOException {
 
-    return createFileOutputStream(parent, fileName + extension);
+    return createFileOutputStream(parent, String.format("%s.%s", fileName, extension));
   }
 
   public static OutputStream createFileOutputStream(String parent, String fileName)
@@ -23,5 +23,10 @@ public class FileUtil {
 
   public static OutputStream createFileOutputStream(File file) throws IOException {
     return new BufferedOutputStream(new FileOutputStream(file));
+  }
+
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  public static void createMissingSubDirectories(String outputDirectory) {
+    new File(outputDirectory).mkdirs();
   }
 }

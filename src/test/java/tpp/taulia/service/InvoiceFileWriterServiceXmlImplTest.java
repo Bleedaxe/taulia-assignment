@@ -1,11 +1,15 @@
 package tpp.taulia.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import tpp.taulia.helper.TestHelper;
+import org.mockito.junit.jupiter.MockitoExtension;
+import tpp.taulia.helper.InvoiceHelper;
+import tpp.taulia.model.Invoice;
 
-import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,25 +19,31 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 class InvoiceFileWriterServiceXmlImplTest {
 
+  @TempDir Path outputDirectory;
+
+  @Mock private ImageWriterService imageWriterService;
+
+  @InjectMocks private InvoiceFileWriterServiceXmlImpl invoiceFileWriterService;
+
   @Test
-  void writeInvoice_withTwoDifferentBuyers_shouldCreateTwoFilesWithCorrespondingData(
-      @TempDir Path tempDir) throws IOException, XMLStreamException {
+  void writeInvoice_withTwoDifferentBuyers_shouldCreateTwoFilesWithCorrespondingData()
+      throws Exception {
 
-    var test1 = TestHelper.getInvoice("test1");
-    var test1Second = TestHelper.getInvoice("test1", "second");
-    var test2 = TestHelper.getInvoice("test2");
+    var first = InvoiceHelper.getInvoice("test1", "first");
+    var second = InvoiceHelper.getInvoice("test1", "second");
+    var third = InvoiceHelper.getInvoice("test2", "third");
 
-    var imageWriteService = Mockito.mock(ImageWriteService.class);
-    try (var invoiceFileWriterService =
-        new InvoiceFileWriterServiceXmlImpl(tempDir.toString(), imageWriteService)) {
-      invoiceFileWriterService.writeInvoice(test1);
-      invoiceFileWriterService.writeInvoice(test2);
-      invoiceFileWriterService.writeInvoice(test1Second);
+    try (var invoiceWriter =
+        invoiceFileWriterService.getInvoiceWriter(outputDirectory.toString())) {
+      invoiceFileWriterService.writeInvoice(first, invoiceWriter);
+      invoiceFileWriterService.writeInvoice(third, invoiceWriter);
+      invoiceFileWriterService.writeInvoice(second, invoiceWriter);
     }
 
-    var files = new File(tempDir.toString()).listFiles();
+    var files = new File(outputDirectory.toString()).listFiles();
     assertThat(files).isNotNull().hasSize(2);
 
     var test1File = files[0];
@@ -41,10 +51,15 @@ class InvoiceFileWriterServiceXmlImplTest {
 
     assertFileNames(test1File, test2File);
     assertFileContent(test1File, test2File);
-    verifyImageCreation(test1File, test2File);
+    verifyImageCreation(first, second, third);
   }
 
-  private void verifyImageCreation(File test1File, File test2File) {}
+  private void verifyImageCreation(Invoice... invoices) throws IOException {
+    for (Invoice invoice : invoices) {
+      var path = outputDirectory.resolve(invoice.getImageName()).toString();
+      Mockito.verify(imageWriterService).writeImageToFileSystem(path, invoice.getInvoiceImage());
+    }
+  }
 
   private void assertFileContent(File test1File, File test2File) throws IOException {
     var test1Lines = getAllLineForFile(test1File);
@@ -54,7 +69,7 @@ class InvoiceFileWriterServiceXmlImplTest {
         .contains(
             "<Invoice>",
             "<Buyer>test1</Buyer>",
-            "<ImageName>image-name</ImageName>",
+            "<ImageName>first</ImageName>",
             "<InvoiceDueDate>2021-10-22</InvoiceDueDate>",
             "<InvoiceNumber>invoice-number</InvoiceNumber>",
             "<InvoiceAmount>42</InvoiceAmount>",
@@ -79,7 +94,7 @@ class InvoiceFileWriterServiceXmlImplTest {
         .contains(
             "<Invoice>",
             "<Buyer>test2</Buyer>",
-            "<ImageName>image-name</ImageName>",
+            "<ImageName>third</ImageName>",
             "<InvoiceDueDate>2021-10-22</InvoiceDueDate>",
             "<InvoiceNumber>invoice-number</InvoiceNumber>",
             "<InvoiceAmount>42</InvoiceAmount>",

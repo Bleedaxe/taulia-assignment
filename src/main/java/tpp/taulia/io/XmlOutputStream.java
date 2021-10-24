@@ -1,4 +1,4 @@
-package tpp.taulia.model;
+package tpp.taulia.io;
 
 import lombok.Value;
 

@@ -2,7 +2,7 @@ package tpp.taulia.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import tpp.taulia.helper.TestHelper;
+import tpp.taulia.helper.InvoiceHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,22 +13,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class InvoiceFileWriterServiceCsvImplTest {
 
+  private final InvoiceFileWriterService invoiceFileWriterService = new InvoiceFileWriterServiceCsvImpl();
+
   @Test
   void writeInvoice_withTwoDifferentBuyers_shouldCreateTwoFilesWithCorrespondingData(
-      @TempDir Path tempDir) throws IOException {
+      @TempDir Path outputDirectory) throws Exception {
 
-    var test1 = TestHelper.getInvoice("test1");
-    var test1Second = TestHelper.getInvoice("test1", "second");
-    var test2 = TestHelper.getInvoice("test2");
+    var test1 = InvoiceHelper.getInvoice("test1");
+    var test1Second = InvoiceHelper.getInvoice("test1", "second");
+    var test2 = InvoiceHelper.getInvoice("test2");
 
-    try (var invoiceFileWriterServiceCsv =
-        new InvoiceFileWriterServiceCsvImpl(tempDir.toString())) {
-      invoiceFileWriterServiceCsv.writeInvoice(test1);
-      invoiceFileWriterServiceCsv.writeInvoice(test2);
-      invoiceFileWriterServiceCsv.writeInvoice(test1Second);
+    try (var invoiceWriter = invoiceFileWriterService.getInvoiceWriter(outputDirectory.toString())) {
+      invoiceFileWriterService.writeInvoice(test1, invoiceWriter);
+      invoiceFileWriterService.writeInvoice(test2, invoiceWriter);
+      invoiceFileWriterService.writeInvoice(test1Second, invoiceWriter);
     }
 
-    var files = new File(tempDir.toString()).listFiles();
+    var files = new File(outputDirectory.toString()).listFiles();
     assertThat(files).isNotNull().hasSize(2);
 
     var test1File = files[0];
@@ -42,14 +43,14 @@ class InvoiceFileWriterServiceCsvImplTest {
     var test1Lines = Files.readAllLines(test1File.toPath());
     assertThat(test1Lines)
         .contains(
-            TestHelper.INVOICE_CSV_HEADER,
+            InvoiceHelper.INVOICE_CSV_HEADER,
             "test1,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia",
             "test1,second,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia");
 
     var test2Lines = Files.readAllLines(test2File.toPath());
     assertThat(test2Lines)
         .contains(
-            TestHelper.INVOICE_CSV_HEADER,
+            InvoiceHelper.INVOICE_CSV_HEADER,
             "test2,image-name,invoice-image,2021-10-22,invoice-number,42,BGN,status,taulia");
   }
 

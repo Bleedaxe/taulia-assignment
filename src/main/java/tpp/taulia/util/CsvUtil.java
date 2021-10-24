@@ -18,6 +18,8 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CsvUtil {
 
+  public static final String FILE_EXTENSION = "csv";
+
   public static ObjectReader getCsvReaderFor(Class<?> clazz) {
     var csvMapper = getCsvMapper();
     var csvSchema = getCsvMapperSchema(csvMapper, clazz);

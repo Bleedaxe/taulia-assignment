@@ -1,8 +1,14 @@
 package tpp.taulia.service;
 
+import tpp.taulia.io.InvoiceWriter;
 import tpp.taulia.model.Invoice;
+import tpp.taulia.model.InvoiceOutputType;
 
-public interface InvoiceFileWriterService extends AutoCloseable {
+public interface InvoiceFileWriterService {
 
-    void writeInvoice(Invoice invoice) throws Exception;
+  InvoiceOutputType getSupportedType();
+
+  InvoiceWriter getInvoiceWriter(String outputDirectory);
+
+  void writeInvoice(Invoice invoice, InvoiceWriter invoiceWriter) throws Exception;
 }

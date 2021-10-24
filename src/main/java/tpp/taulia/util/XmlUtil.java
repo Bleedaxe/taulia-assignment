@@ -1,5 +1,6 @@
 package tpp.taulia.util;
 
+import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -19,21 +20,11 @@ public class XmlUtil {
 
   public static final String FILE_EXTENSION = "xml";
 
-  private static final String NEW_LINE = System.lineSeparator();
-  private static final String INDENTATION = "\t";
-
   private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
 
   public static XMLStreamWriter createXmlStreamWriter(OutputStream outputStream)
       throws XMLStreamException {
-    return XML_OUTPUT_FACTORY.createXMLStreamWriter(outputStream, FILE_ENCODING);
-  }
-
-  public static void addNewLine(XMLStreamWriter writer) throws XMLStreamException {
-    writer.writeCharacters(NEW_LINE);
-  }
-
-  public static void addIndentation(XMLStreamWriter writer, int count) throws XMLStreamException {
-    writer.writeCharacters(INDENTATION.repeat(count));
+    return new IndentingXMLStreamWriter(
+        XML_OUTPUT_FACTORY.createXMLStreamWriter(outputStream, FILE_ENCODING));
   }
 }

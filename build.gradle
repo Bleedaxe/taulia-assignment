@@ -18,11 +18,17 @@ repositories {
     mavenCentral()
 }
 
+ext {
+   set('jaxbVersion', '3.0.2')
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
 
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    implementation "com.sun.xml.bind:jaxb-impl:${jaxbVersion}"
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

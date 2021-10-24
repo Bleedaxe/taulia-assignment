@@ -60,9 +60,7 @@ public class XmlInvoiceWriter implements InvoiceWriter {
   private void writeInvoiceToXmlStream(Invoice invoice, XMLStreamWriter writer)
       throws XMLStreamException {
 
-    XmlUtil.addIndentation(writer, 1);
     writer.writeStartElement("Invoice");
-    XmlUtil.addNewLine(writer);
 
     writeElementToStream("Buyer", invoice.getBuyer(), writer);
     writeElementToStream("ImageName", invoice.getImageName(), writer);
@@ -75,15 +73,11 @@ public class XmlInvoiceWriter implements InvoiceWriter {
     writeElementToStream("InvoiceStatus", invoice.getInvoiceStatus(), writer);
     writeElementToStream("Supplier", invoice.getSupplier(), writer);
 
-    XmlUtil.addIndentation(writer, 1);
     writer.writeEndElement();
-    XmlUtil.addNewLine(writer);
   }
 
   private void writeElementToStream(String elementName, String value, XMLStreamWriter writer)
       throws XMLStreamException {
-
-    XmlUtil.addIndentation(writer, 2);
 
     if (value == null || value.isBlank()) {
       writer.writeEmptyElement(elementName);
@@ -93,7 +87,6 @@ public class XmlInvoiceWriter implements InvoiceWriter {
       writer.writeEndElement();
     }
 
-    XmlUtil.addNewLine(writer);
   }
 
   private XmlOutputStream createXmlWriter(Invoice invoice) throws XMLStreamException, IOException {
@@ -104,9 +97,7 @@ public class XmlInvoiceWriter implements InvoiceWriter {
     var writer = XmlUtil.createXmlStreamWriter(outputStream);
 
     writer.writeStartDocument(XmlUtil.FILE_ENCODING, XmlUtil.FILE_VERSION);
-    XmlUtil.addNewLine(writer);
     writer.writeStartElement("InvoiceList");
-    XmlUtil.addNewLine(writer);
 
     return new XmlOutputStream(outputStream, writer);
   }
@@ -118,7 +109,6 @@ public class XmlInvoiceWriter implements InvoiceWriter {
 
   private void addClosingTagsToXmlDocument(XMLStreamWriter writer) throws XMLStreamException {
     writer.writeEndElement();
-    XmlUtil.addNewLine(writer);
     writer.writeEndDocument();
 
     log.info("Finished writing to xml file. Closing..");
